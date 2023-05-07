@@ -1,3 +1,2 @@
-- have a directory for cpcc files (not working dir)
+- un-hardcode include directory for cmake
 - have proper argument parsing
-

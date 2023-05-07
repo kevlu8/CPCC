@@ -1,15 +1,22 @@
+#include <dirent.h>
+#include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
-#include <dirent.h>
 
-#define CPCC_VER "0.0.1"
-
-int credit = 1;
+char *combine(char *a, char *b) {
+	char *res = malloc(strlen(a) + strlen(b) - 1);
+	strcat(strcpy(res, a), b);
+	return res;
+}
 
 void ffprint(const char *path, FILE *out) {
 	FILE *f = fopen(path, "r");
+	if (f == NULL) {
+		printf("Could not find libraries!\n");
+		exit(1);
+	}
 	fseek(f, 0, SEEK_END);
 	int fsize = ftell(f);
 	rewind(f);
@@ -22,13 +29,14 @@ void ffprint(const char *path, FILE *out) {
 	free(buf);
 }
 
-void handle_args(char *arg) {
+bool handle_args(char *arg) {
+	bool credit = 1;
 	if (strcmp(arg, "version") == 0) {
 		printf("CPCC version %s\n", CPCC_VER);
 		exit(0);
 	}
 	else if (strcmp(arg, "libs") == 0) {
-		DIR *d = opendir("utils");
+		DIR *d = opendir(combine(CPCC_INCLUDE_DIR, "utils"));
 		struct dirent *dir;
 		if (d == NULL) {
 			printf("Could not find library directory!\n");
@@ -46,6 +54,11 @@ void handle_args(char *arg) {
 	else if (strcmp(arg, "nocredit") == 0) {
 		credit = 0;
 	}
+	else {
+		printf("Unrecognized command line option: %s\n", arg);
+		exit(1);
+	}
+	return credit;
 }
 
 int main(int argc, char *argv[]) {
@@ -67,8 +80,10 @@ int main(int argc, char *argv[]) {
 			return 0;
 	}
 
+	bool credit = 1;
+
 	if (strncmp(argv[1], "--", 2) == 0)
-		handle_args(argv[1]+2);
+		credit = handle_args(argv[1]+2);
 
 	FILE *in = fopen(argv[argc-1], "r");
 	if (in == NULL) {
@@ -89,8 +104,8 @@ int main(int argc, char *argv[]) {
 	char *bufval = buf;
 	fread(buf, fsize, 1, in);
 	fclose(in);
-	if (credit) ffprint("crucial/credit", out);
-	ffprint("crucial/base", out);
+	if (credit) ffprint(combine(CPCC_INCLUDE_DIR, "crucial/credit"), out);
+	ffprint(combine(CPCC_INCLUDE_DIR, "crucial/base"), out);
 	while (*buf) {
 		int flag=0;
 		char *q = strchr(buf, '\n');
@@ -104,9 +119,7 @@ int main(int argc, char *argv[]) {
 		if (strncmp(line, "use ", 4) == 0) {
 			line += 4;
 
-			const char *dir = "utils/";
-			char path[1024];
-			snprintf(path, sizeof(path), "%s/%s", dir, line);
+			char *path = combine(combine(CPCC_INCLUDE_DIR, "utils/"), line);
 			if (access(path, F_OK) == -1) {
 				printf("%s %s %s\n",
 					line,
@@ -116,6 +129,7 @@ int main(int argc, char *argv[]) {
 				return 1;
 			}
 			ffprint(path, out);
+			free(path);
 		} else flag=1;
 		next:
 		free(old_line);
