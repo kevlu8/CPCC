@@ -1,3 +1,4 @@
 *.cp
 .vscode/
 *.out
+out.cpp
