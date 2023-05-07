@@ -1,0 +1,5 @@
+ll factorial(ll x, ll mod=LLINF) {
+	ll res = 1;
+	for (ll i = 2; i <= x; i++) res = (res*i) % mod;
+	return res;
+}

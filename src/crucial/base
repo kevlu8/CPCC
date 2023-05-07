@@ -1,0 +1,8 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+#define ld long double;
+
+const int INF = 2147483647;
+const ll LLINF = 9223372036854775807;

@@ -1,0 +1,11 @@
+#define fori(x) for (int i = 0; i < (x); i++)
+#define forj(x) for (int j = 0; j < (x); j++)
+#define pii pair<int, int>
+#define pll pair<ll, ll>
+#define vec vector
+#define minpq priority_queue<int, vector<int>, greater<int>>
+#define debug(x) cout << #x << " = " << x << endl;
+#define indexed_set tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update>
+#define fastio() cin.tie(0)->sync_with_stdio(0)
+#define printx(x) { cout << (x) << '\n'; exit(0); }
+#define inputvector(x, n) x.resize(n); forj(n) { cin >> x[j]; }
