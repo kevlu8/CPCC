@@ -1,4 +1,4 @@
-struct SegTree {
+struct segtree {
 	int size=1;
 	vector<int> a;
 	void init(int n) {
@@ -10,7 +10,7 @@ struct SegTree {
 		a[i] = x;
 		while (i > 1) {
 			i /= 2;
-			a[i] = a[i*2] + a[i*2+1];
+			a[i] = a[i*2] + a[i*2+1]; // replace with your operator of choice
 		}
 	}
 	ll query(int l, int r) {
