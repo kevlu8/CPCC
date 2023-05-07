@@ -2,8 +2,11 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#include <dirent.h>
 
 #define CPCC_VER "0.0.1"
+
+int credit = 1;
 
 void ffprint(const char *path, FILE *out) {
 	FILE *f = fopen(path, "r");
@@ -19,17 +22,43 @@ void ffprint(const char *path, FILE *out) {
 	free(buf);
 }
 
+void handle_args(char *arg) {
+	if (strcmp(arg, "version") == 0) {
+		printf("CPCC version %s\n", CPCC_VER);
+		exit(0);
+	}
+	else if (strcmp(arg, "libs") == 0) {
+		DIR *d = opendir("utils");
+		struct dirent *dir;
+		if (d == NULL) {
+			printf("Could not find library directory!\n");
+			exit(1);
+		}
+		printf("Available libraries: ");
+		while ((dir = readdir(d)) != NULL) {
+			if (strncmp(dir->d_name, ".", 1)) // hide hidden files
+				printf("%s ", dir->d_name);
+		}
+		closedir(d);
+		printf("\n");
+		exit(0);
+	}
+	else if (strcmp(arg, "nocredit") == 0) {
+		credit = 0;
+	}
+}
+
 int main(int argc, char *argv[]) {
 	if (argc < 2 || strcmp(argv[1], "--help") == 0) {
 		// usage
 		printf("%s %s %s %s %s %s %s\n", 
 			"usage:",
 			argv[0],
-			"[--help] [--version] <filename> [<args>]",
-			"filename must end with .cp to specify a CP file.",
+			"[--help] [--version] [--libs] [--nocredit] <filename>\n",
 			"arguments:\n"
 			"	--help		Prints this message\n",
 			"	--version	Prints the version of CPCC you are using\n",
+			"	--libs		Prints available CPCC libraries\n",
 			"	--nocredit	Compiles the file without the credits at the beginning"
 		);
 		if (argc < 2)
@@ -37,26 +66,22 @@ int main(int argc, char *argv[]) {
 		else
 			return 0;
 	}
-	if (strcmp(argv[1], "--version") == 0) {
-		printf("CPCC version %s\n", CPCC_VER);
-		return 0;
-	}
-	if (strcmp(&argv[1][strlen(argv[1])-3], ".cp")) {
-		printf("Invalid file extension; files must end with \".cp\"\n");
-		return 1;
-	}
-	FILE *in = fopen(argv[1], "r");
+
+	if (strncmp(argv[1], "--", 2) == 0)
+		handle_args(argv[1]+2);
+
+	FILE *in = fopen(argv[argc-1], "r");
 	if (in == NULL) {
-		printf("Invalid file supplied!\n");
+		printf("Invalid file %s supplied!\n", argv[argc-1]);
 		return 1;
 	}
+
 	FILE *out = fopen("out.cpp", "w");
 	if (out == NULL) {
 		printf("Could not open result file!\n");
 		return 1;
 	}
-	int credit = 1;
-	if (argc > 2 && strcmp(argv[2], "--nocredit") == 0) credit = 0;
+	
 	fseek(in, 0, SEEK_END);
 	int fsize = ftell(in);
 	rewind(in);

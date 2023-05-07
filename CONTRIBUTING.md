@@ -14,6 +14,4 @@ We are mainly looking for contributions to utility parts of CPCC - they should b
 
 1. Code inside of the files should not be offensive - they should not contain offensive language, variable names, etc.
 2. Parts of the code where the user is welcome to modify should be commented as such: e.g. `// subtract 1 if index is 1-indexed`
-3. Before writing your code, take a look at `src/crucial/base` to see the base code: you can use the macros provided there to make your code more readable
-
-Be warned: low effort pull requests will be denied!
+3. Before writing your code, take a look at `src/crucial/base/` to see the base code: you can use the macros provided there to make your code more readable
