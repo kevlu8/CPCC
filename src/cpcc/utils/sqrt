@@ -1,0 +1,13 @@
+ld sqrt(ll n) {
+	if (n == 0) return 0;
+	if (n == 1) return 1;
+	ld guess = n / 2;
+	ld prevguess = guess;
+	while (1) {
+		prevguess = guess;
+		guess = (guess + (ld)n/guess) / 2;
+		if (abs(guess - prevguess) <= 1e-9) { // change to desired accuracy
+			return guess;
+		}
+	}
+}

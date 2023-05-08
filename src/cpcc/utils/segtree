@@ -1,6 +1,6 @@
 struct segtree {
 	int size=1;
-	vector<int> a;
+	vector<ll> a;
 	void init(int n) {
 		while (size<n) size *= 2;
 		a.resize(size*2);
@@ -17,11 +17,11 @@ struct segtree {
 		l += size; r += size;
 		ll res = 0;
 		while (l <= r) {
-			if (l % 2 == 0) res += a[l++];
-			if (r % 2 == 1) res += a[r--];
+			if (l % 2 == 1) res += a[l++];
+			if (r % 2 == 0) res += a[r--];
 			l /= 2;
 			r /= 2;
 		}
 		return res;
 	}
-}
+};
