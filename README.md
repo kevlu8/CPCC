@@ -6,7 +6,7 @@ The competitive programmer's C++ translator.
 
 ### Syntax
 
-"Includes" must be before all other code in CP files:
+`use`s must be before all other code in CP files:
 
 ```cpp
 use factorial;
@@ -31,7 +31,7 @@ will not.
 
 CP is virtually identical to C++, except for having `use` libraries.
 
-To use a library, simply put `use <libname>` at the beginning of your code.
+To use a library, simply put `use <libname>;` at the beginning of your code.
 
 To compile your CP program, run `cpcc file.cp`.
 
@@ -50,9 +50,9 @@ git clone https://github.com/kevlu8/CPCC.git
 2. Make a build folder
 
 ```sh
-cd CPCC;
-mkdir build;
-cd build;
+cd CPCC
+mkdir build
+cd build
 ```
 
 3. Configure with CMake

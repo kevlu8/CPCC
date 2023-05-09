@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(CPCC VERSION 0.0.2)
+project(CPCC VERSION 0.0.3)
 
 add_definitions("-DCPCC_VER=\"${PROJECT_VERSION}\"")
 add_definitions("-DCPCC_INCLUDE_DIR=\"/usr/local/include/cpcc/\"")

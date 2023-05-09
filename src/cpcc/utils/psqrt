@@ -1,4 +1,4 @@
-ld sqrt(ll n) {
+ld psqrt(ll n) {
 	if (n == 0) return 0;
 	if (n == 1) return 1;
 	ld guess = n / 2;
