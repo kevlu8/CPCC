@@ -10,3 +10,4 @@
 #define printx(x) { cout << (x) << '\n'; exit(0); }
 #define inputvector(x, n) x.resize(n); forj(n) { cin >> x[j]; }
 #define hashtable gp_hash_table
+#define usaco() freopen("input.in", "r", stdin); freopen("output.in", "w", stdout)

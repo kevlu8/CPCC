@@ -1,0 +1,15 @@
+int bellman_ford(int u, int v) {
+	// Assumes the graph is an edge list in vector<tuple<int, int, int>> edges
+	// where the first two elements of the tuple are the vertices and the third is the weight
+	
+	vector<int> dist(n, INF);
+	dist[u] = 0;
+	for (int i = 0; i < n-1; i++) {
+		for (auto [a, b, w] : edges) {
+			if (dist[a] + w < dist[b]) {
+				dist[b] = dist[a] + w;
+			}
+		}
+	}
+	return dist[v];
+}

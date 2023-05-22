@@ -1,0 +1,13 @@
+pair<int, vector<int>> lis(vector<int> &v) {
+	vector<int> res;
+	res.push_back(v[0]);
+	for (int i = 1; i < v.size(); i++) {
+		if (v[i] > res.back()) {
+			res.push_back(v[i]);
+		} else {
+			int idx = lower_bound(res.begin(), res.end(), v[i]) - res.begin();
+			res[idx] = v[i];
+		}
+	}
+	return {res.size(), res};
+}
