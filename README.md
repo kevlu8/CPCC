@@ -27,15 +27,15 @@ int main() {
 }
 ```
 
-will not.
+may cause unexpected behavior.
 
-CP is virtually identical to C++, except for having `use` libraries.
+CPC is virtually identical to C++, except for having `use` libraries.
 
 To use a library, simply put `use <libname>;` at the beginning of your code.
 
-To compile your CP program, run `cpcc file.cp`.
+To compile your CP program, run `cpcc file.cpc`.
 
-If you would not like the credits comments at the beginning of your code, simplify run `cpcc --nocredits file.cp`.
+If you would not like the credits comments at the beginning of your code, simplify run `cpcc --nocredits file.cpc`.
 
 ### Installing
 

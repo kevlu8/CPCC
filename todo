@@ -6,8 +6,4 @@
 		- output time complexity for every function
 - add compiler warnings for:
 	- running complete search on a sorted array
-	- not using fast io
-	- mixing c-style io and c++ io
-	- using endl
 	- lower_bound, upper_bound on an unsorted array
-	- using compiler-specific types (e.g. __int128)

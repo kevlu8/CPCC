@@ -1,10 +1,12 @@
+#include <deque>
 #include <fstream>
 #include <filesystem>
 #include <iostream>
 #include <string>
 #include <cstring>
 #include <ctime>
-#include <vector>
+
+#include "warn.hpp"
 
 void ffprint(std::string path, std::ofstream *out) {
 	std::ifstream f(path);
@@ -80,8 +82,7 @@ int main(int argc, char *argv[]) {
 		return 1;
 	}
 
-	std::vector<std::string> lines;
-	lines.reserve(1024);
+	std::deque<std::string> lines;
 	std::string _line;
 	while (std::getline(in, _line)) {
 		lines.push_back(_line);
@@ -94,7 +95,10 @@ int main(int argc, char *argv[]) {
 	int end_imports = -1;
 	for (int i = 0; i < lines.size(); i++) {
 		const std::string &line = lines[i];
-		if (line.size() == 0) continue;
+		if (line.size() == 0) {
+			end_imports = i;
+			break;
+		}
 		if (line.substr(0, 4) == "use ") {
 			std::string path = std::string(CPCC_INCLUDE_DIR) + "utils/" + line.substr(4);
 			path.pop_back(); // remove ;
@@ -108,31 +112,24 @@ int main(int argc, char *argv[]) {
 		}
 		if (end_imports == -1) {
 			end_imports = i;
+			break;
 		}
+	}
+
+	for (int i = 0; i < end_imports; i++) {
+		lines.pop_front();
 	}
 
 	out << '\n';
 
 	std::string main_buf;
 	main_buf.reserve(65536);
-
 	for (int i = end_imports; i < lines.size(); i++) {
 		out << lines[i] << '\n';
 		main_buf += lines[i] + '\n';
 	}
 
-	// check for missing fastio
-	if (main_buf.find("fastio();") == std::string::npos && (main_buf.find("sync_with_stdio") == std::string::npos
-		|| main_buf.find("cin.tie") == std::string::npos)) {
-		std::cout << "\033[1;33mWarning: \033[0m" << "Fast input/output is not being used. "
-			<< "Or, you are running only one of `sync_with_stdio` or `cin.tie`. "
-			<< "Ignore this warning if you are using `scanf` and `printf`. " << std::endl;
-	}
-	// check for endls
-	if (main_buf.find("endl") != std::string::npos) {
-		std::cout << "\033[1;33mWarning: \033[0m" << "`endl` is slow, and should be avoided in favor of `\\n`. "
-			<< "Ignore this warning if you are solving an interactive problem." << std::endl;
-	}
+	Warnings::analyze(main_buf, lines);
 
 	out.close();
 
