@@ -3,7 +3,7 @@
 - display stats after compilation
 	- time taken
 	- **estimated time complexity of code**
-		- output time complexity for every function
+		- output time complexity for every function (beta)
 - add compiler warnings for:
 	- running complete search on a sorted array
 	- lower_bound, upper_bound on an unsorted array
