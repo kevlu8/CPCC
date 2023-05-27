@@ -1,0 +1,19 @@
+struct rect {
+	ll x1, y1, x2, y2;
+	rect() {}
+	rect(ll _x1, ll _y1, ll _x2, ll _y2) {
+		x1 = _x1, y1 = _y1, x2 = _x2, y2 = _y2;
+	}
+	ll area() {
+		return (x2 - x1) * (y2 - y1);
+	}
+	bool contains(rect r) {
+		return x1 <= r.x1 && r.x2 <= x2 && y1 <= r.y1 && r.y2 <= y2;
+	}
+	bool intersects(rect r) {
+		return x1 < r.x2 && r.x1 < x2 && y1 < r.y2 && r.y1 < y2;
+	}
+	rect intersection(rect r) {
+		return rect(max(x1, r.x1), max(y1, r.y1), min(x2, r.x2), min(y2, r.y2));
+	}
+}
