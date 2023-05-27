@@ -7,7 +7,7 @@ add_definitions("-DCPCC_INCLUDE_DIR=\"/usr/local/include/cpcc/\"")
 
 add_executable(cpcc src/main.cpp)
 
-target_compile_options(cpcc PRIVATE -O3)
+target_compile_options(cpcc PRIVATE -O3 -std=c++20)
 
 install(TARGETS cpcc DESTINATION bin)
 install(DIRECTORY src/cpcc/ DESTINATION /usr/local/include/cpcc)

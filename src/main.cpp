@@ -1,10 +1,9 @@
-#include <dirent.h>
 #include <fstream>
+#include <filesystem>
 #include <iostream>
 #include <string>
-#include <string.h>
-#include <time.h>
-#include <unistd.h>
+#include <cstring>
+#include <ctime>
 #include <vector>
 
 void ffprint(std::string path, std::ofstream *out) {
@@ -21,29 +20,23 @@ void ffprint(std::string path, std::ofstream *out) {
 }
 
 bool handle_args(char *arg) {
-	bool credit = 1;
+	bool credit = true;
 	if (strcmp(arg, "version") == 0) {
 		std::cout << "CPCC version " << CPCC_VER << std::endl;
 		exit(0);
 	}
 	else if (strcmp(arg, "libs") == 0) {
-		DIR *d = opendir((std::string(CPCC_INCLUDE_DIR) + "utils").c_str());
-		struct dirent *dir;
-		if (d == NULL) {
-			std::cerr << "Could not find library directory!" << std::endl;
-			exit(1);
-		}
 		std::cout << "Available libraries: ";
-		while ((dir = readdir(d)) != NULL) {
-			if (strncmp(dir->d_name, ".", 1)) // hide hidden files
-				std::cout << dir->d_name << ' ';
+		for (const auto &entry : std::filesystem::directory_iterator(std::string(CPCC_INCLUDE_DIR) + "utils")) {
+			std::string file = entry.path().filename().string();
+			if (file[0] == '.') continue;
+			std::cout << file << ' ';
 		}
-		closedir(d);
 		std::cout << std::endl;
 		exit(0);
 	}
 	else if (strcmp(arg, "nocredit") == 0) {
-		credit = 0;
+		credit = false;
 	}
 	else {
 		std::cerr << "Invalid argument " << arg << " supplied!" << std::endl;
@@ -70,7 +63,7 @@ int main(int argc, char *argv[]) {
 	
 	long long timer = clock();
 
-	bool credit = 1;
+	bool credit = true;
 
 	if (strncmp(argv[1], "--", 2) == 0)
 		credit = handle_args(argv[1]+2);
@@ -105,12 +98,12 @@ int main(int argc, char *argv[]) {
 		if (line.substr(0, 4) == "use ") {
 			std::string path = std::string(CPCC_INCLUDE_DIR) + "utils/" + line.substr(4);
 			path.pop_back(); // remove ;
-			if (access(path.c_str(), F_OK) == -1) {
+			if (!std::filesystem::exists(path)) {
 				std::cerr << line.substr(4) << " is not recognized as a valid library." << std::endl;
 				std::cerr << "Check to see if you are running an up-to-date CPCC version." << std::endl;
 				return 1;
 			}
-			ffprint(path.c_str(), &out);
+			ffprint(path, &out);
 			continue;
 		}
 		if (end_imports == -1) {
