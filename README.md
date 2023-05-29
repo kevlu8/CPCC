@@ -6,7 +6,7 @@ The competitive programmer's C++ translator.
 
 ### Syntax
 
-`use`s must be before all other code in CP files:
+`use`s must be before all other code in CPC files:
 
 ```cpp
 use macros;
