@@ -1,9 +1,8 @@
 - un-hardcode include directory for cmake
-- have proper argument parsing
 - display stats after compilation
-	- time taken
 	- **estimated time complexity of code**
-		- output time complexity for every function (beta)
+		- output time complexity for every function
 - add compiler warnings for:
 	- running complete search on a sorted array
 	- lower_bound, upper_bound on an unsorted array
+	- other bad practices in competitive programming

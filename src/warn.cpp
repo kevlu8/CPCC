@@ -23,6 +23,11 @@ void Warnings::analyze(std::string &code, std::deque<std::string> &lines) {
 		std::cout << "\033[1;33mWarning: \033[0m" << "Using `std::` is not recommended, as `using namespace std;` "
 			<< "is already included." << std::endl;
 	}
+	// check for use of unordered set/map
+	if (code.find("unordered_set") != std::string::npos || code.find("unordered_map") != std::string::npos) {
+		std::cout << "\033[1;33mWarning: \033[0m" << "Using `unordered_set` or `unordered_map` is not recommended, "
+			<< "as the worst case time complexity can be O(n). Instead, use `set` or `map`." << std::endl;
+	}
 
 	int depth = 0;
 	std::vector<std::vector<std::string>> functions;
@@ -35,7 +40,7 @@ void Warnings::analyze(std::string &code, std::deque<std::string> &lines) {
 			depth++;
 			flag = true;
 		}
-		if (lines[i].find('}') != std::string::npos) {
+		if (lines[i].find('}') != std::string::npos) { // mega scuffed	
 			depth--;
 			flag = true;
 		}
@@ -70,7 +75,7 @@ void Warnings::analyze(std::string &code, std::deque<std::string> &lines) {
 			}
 			if (functions[i][j].find('}') != std::string::npos) {
 				depth--;
-				if (fors.find(depth + 1) != fors.end()) {
+				if (fors.count(depth + 1)) {
 					exp_n = std::max(exp_n, (int)fors.size());
 					fors.erase(depth + 1);
 				}

@@ -9,6 +9,7 @@ The competitive programmer's C++ translator.
 `use`s must be before all other code in CP files:
 
 ```cpp
+use macros;
 use factorial;
 
 int main() {
@@ -20,6 +21,7 @@ will work, but
 
 ```cpp
 #include <iostream>
+use macros;
 use factorial;
 
 int main() {
@@ -33,13 +35,15 @@ CPC is virtually identical to C++, except for having `use` libraries.
 
 To use a library, simply put `use <libname>;` at the beginning of your code.
 
-To compile your CP program, run `cpcc file.cpc`.
+To compile your CPC program, run `cpcc file.cpc`.
 
 If you would not like the credits comments at the beginning of your code, simplify run `cpcc --nocredits file.cpc`.
 
+If you would not like warnings to be printed, simply run `cpcc --Wnone file.cpc`.
+
 ### Installing
 
-As CPCC depends on its libraries, it is **highly recommended** that you build from source as opposed to installing a prebuilt version.
+As CPCC depends on its libraries, it is **highly recommended** that you build from source as opposed to installing a prebuilt version. You may need to install Boost for CPCC to work.
 
 1. Clone the repository: 
 
