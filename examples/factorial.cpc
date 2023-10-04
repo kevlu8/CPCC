@@ -1,0 +1,13 @@
+use macros;
+use factorial;
+
+int t, n, m;
+
+int main() {
+	fastio();
+	cin >> t;
+	fori(t) {
+		cin >> n >> m;
+		cout << factorial(n, m) << '\n';
+	}
+}
