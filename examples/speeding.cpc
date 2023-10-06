@@ -1,0 +1,32 @@
+use macros;
+
+// USACO 2015 December Contest, Bronze
+// Problem 2: Speeding ticket
+
+int n, m, best=0;
+int lims[101];
+
+int main() {
+	fastio();
+	usaco("speeding");
+	cin >> n >> m;
+	int idx = 0;
+	fori(n) {
+		int x, y;
+		cin >> x >> y;
+		for (int i = idx; i < idx+x; i++) {
+			lims[i] = y;
+		}
+		idx += x;
+	}
+	idx = 0;
+	fori(m) {
+		int x, y;
+		cin >> x >> y;
+		for (int i = idx; i < idx+x; i++) {
+			best = max(best, y - lims[i]);
+		}
+		idx += x;
+	}
+	cout << best << '\n';
+}
