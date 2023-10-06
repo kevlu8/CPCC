@@ -1,0 +1,29 @@
+use macros;
+
+// USACO 2019 December Context, Bronze
+// Problem 2. Where Am I?
+
+int n;
+string s;
+
+int main() {
+	fastio();
+	usaco("whereami");
+	cin >> n >> s;
+	for (int i = 1; i <= n; i++) {
+		unordered_set<string> st;
+		bool ok = true;
+		for (int j = 0; j + i <= n; j++) {
+			string t = s.substr(j, i);
+			if (st.count(t)) {
+				ok = false;
+				break;
+			}
+			st.insert(t);
+		}
+		if (ok) {
+			cout << i << endl;
+			break;
+		}
+	}
+}
