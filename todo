@@ -6,5 +6,6 @@
 	- running complete search on a sorted array
 	- lower_bound, upper_bound on an unsorted array
 	- other bad practices in competitive programming
+- rewrite warning system (slow)
 - make vscode synhighlight extension
 - add ability to compile with CXX compiler after translating to C++
