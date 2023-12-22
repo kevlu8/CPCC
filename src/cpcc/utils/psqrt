@@ -1,4 +1,4 @@
-ld psqrt(ll n) {
+ld psqrt(ll n, ld e=1e-9) {
 	if (n == 0) return 0;
 	if (n == 1) return 1;
 	ld guess = n / 2;
@@ -6,7 +6,7 @@ ld psqrt(ll n) {
 	while (1) {
 		prevguess = guess;
 		guess = (guess + (ld)n/guess) / 2;
-		if (abs(guess - prevguess) <= 1e-9) { // change to desired accuracy
+		if (abs(guess - prevguess) <= e) { // change to desired accuracy
 			return guess;
 		}
 	}

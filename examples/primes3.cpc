@@ -1,0 +1,20 @@
+use optimized;
+use macros;
+use primes;
+
+// Primes3 - https://dmoj.ca/problem/primes3
+
+int t;
+unsigned ll x;
+
+int main() {
+	fastio();
+	cin >> t;
+	while (t--) {
+		cin >> x;
+		if ((x % 2 == 0 && x != 2) || x < 2) cout << "NOT\n";
+		else if (x == 2 || is_prime(x)) cout << "PRIME\n";
+		else cout << "NOT\n";
+	}
+	return 0;
+}
